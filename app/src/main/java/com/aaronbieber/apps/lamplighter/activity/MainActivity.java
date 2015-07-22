@@ -52,14 +52,6 @@ public class MainActivity extends Activity {
                 updateOnOffButton();
             }
         });
-
-        Button btnCheck = (Button) findViewById(R.id.btnCheck);
-        btnCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateOnOffButton();
-            }
-        });
     }
 
     @Override
