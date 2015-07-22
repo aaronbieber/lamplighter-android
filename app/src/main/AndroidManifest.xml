@@ -13,18 +13,21 @@
         android:label="@string/app_name"
         android:debuggable="true"
         android:theme="@style/AppTheme" >
-        <receiver
-            android:name=".receiver.HeartbeatReceiver"
-            android:enabled="true"
-            android:exported="true" >
-        </receiver>
 
+        <!-- Check the status of the network at intervals -->
         <service
             android:name=".service.NetworkCheckService"
             android:enabled="true"
             android:exported="true" >
         </service>
 
+        <receiver
+            android:name=".receiver.HeartbeatReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+
+        <!-- Receive boot completed action and start service -->
         <receiver
             android:name=".receiver.StartNetworkCheckServiceAtBootReceiver"
             android:enabled="true"

@@ -11,9 +11,10 @@ import android.widget.ToggleButton;
 
 import com.aaronbieber.apps.lamplighter.R;
 import com.aaronbieber.apps.lamplighter.service.NetworkCheckService;
+import com.aaronbieber.apps.lamplighter.util.Heartbeat;
 
 public class MainActivity extends Activity {
-
+    private static final String DEBUG_TAG = "Lamplighter";
     Activity activity;
 
     @Override
@@ -29,23 +30,23 @@ public class MainActivity extends Activity {
         ToggleButton switchServiceToggle = (ToggleButton) findViewById(R.id.toggleOnOff);
         switchServiceToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolean isAlarmSet = NetworkCheckService.isHeartbeatAlarmSet(activity.getApplicationContext());
+                boolean isAlarmSet = Heartbeat.isHeartbeatAlarmSet(activity.getApplicationContext());
 
                 if (isChecked) {
-                    Log.d("Lamplighter", "Asked to start service!");
+                    Log.d(DEBUG_TAG, "Asked to start service!");
                     if (!isAlarmSet) {
-                        Log.d("Lamplighter", "It's not set, so I'm doing it.");
-                        NetworkCheckService.setHeartbeatAlarm(activity.getApplicationContext());
+                        Log.d(DEBUG_TAG, "It's not set, so I'm doing it.");
+                        Heartbeat.setHeartbeatAlarm(activity.getApplicationContext());
                     } else {
-                        Log.d("Lamplighter", "It's already set, doing nothing.");
+                        Log.d(DEBUG_TAG, "It's already set, doing nothing.");
                     }
                 } else {
-                    Log.d("Lamplighter", "Asked to stop service!");
+                    Log.d(DEBUG_TAG, "Asked to stop service!");
                     if (isAlarmSet) {
-                        Log.d("Lamplighter", "It's set, so I'm killing it.");
-                        NetworkCheckService.stopHeartbeatAlarm(activity.getApplicationContext());
+                        Log.d(DEBUG_TAG, "It's set, so I'm killing it.");
+                        Heartbeat.stopHeartbeatAlarm(activity.getApplicationContext());
                     } else {
-                        Log.d("Lamplighter", "It's not set, so I'm doing nothing.");
+                        Log.d(DEBUG_TAG, "It's not set, so I'm doing nothing.");
                     }
                 }
 
@@ -63,7 +64,7 @@ public class MainActivity extends Activity {
 
     private void updateOnOffButton() {
         // Update the textStatus label based on NetworkCheckService.isHeartbeatAlarmSet()
-        boolean isAlarmSet = NetworkCheckService.isHeartbeatAlarmSet(this.getApplicationContext());
+        boolean isAlarmSet = Heartbeat.isHeartbeatAlarmSet(this.getApplicationContext());
 
         Log.i("Lamplighter", "Heartbeat service alarm is " + (isAlarmSet ? "on." : "off."));
 
