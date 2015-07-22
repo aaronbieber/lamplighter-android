@@ -12,6 +12,7 @@ import android.widget.ToggleButton;
 import com.aaronbieber.apps.lamplighter.R;
 import com.aaronbieber.apps.lamplighter.service.NetworkCheckService;
 import com.aaronbieber.apps.lamplighter.util.Heartbeat;
+import com.aaronbieber.apps.lamplighter.util.Notify;
 
 public class MainActivity extends Activity {
     private static final String DEBUG_TAG = "Lamplighter";
@@ -60,13 +61,16 @@ public class MainActivity extends Activity {
         super.onResume();
 
         updateOnOffButton();
+        Notify.cancelNotification(this.getApplicationContext(), Notify.HEARTBEAT_NOTIFICATION_ID);
+
+        Log.d(DEBUG_TAG, "Application has resumed. Notification canceled.");
     }
 
     private void updateOnOffButton() {
         // Update the textStatus label based on NetworkCheckService.isHeartbeatAlarmSet()
         boolean isAlarmSet = Heartbeat.isHeartbeatAlarmSet(this.getApplicationContext());
 
-        Log.i("Lamplighter", "Heartbeat service alarm is " + (isAlarmSet ? "on." : "off."));
+        Log.d(DEBUG_TAG, "Heartbeat service alarm is " + (isAlarmSet ? "on." : "off."));
 
         ToggleButton t = (ToggleButton) findViewById(R.id.toggleOnOff);
         t.setChecked(isAlarmSet);
