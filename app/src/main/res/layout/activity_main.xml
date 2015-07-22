@@ -10,28 +10,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Getting status..."
-        android:id="@+id/textStatus"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center" />
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enable Lamplighter"
-        android:id="@+id/switchServiceToggle"
-        android:layout_marginBottom="72dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check Status"
-        android:id="@+id/btnCheck"
+        android:text="@string/title"
+        android:id="@+id/textTitle"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/toggleOnOff"
+        android:layout_alignEnd="@+id/toggleOnOff"
+        android:textAlignment="center"
+        android:gravity="center_horizontal" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/description"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/textTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textTitle"
+        android:layout_alignEnd="@+id/textTitle" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/toggle_help"
+        android:id="@+id/textView"
+        android:layout_above="@+id/toggleOnOff"
+        android:textColor="@android:color/black"
+        android:gravity="center_horizontal" />
+
+    <ToggleButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New ToggleButton"
+        android:id="@+id/toggleOnOff"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
