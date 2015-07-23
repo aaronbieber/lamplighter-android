@@ -62,6 +62,6 @@ public class Heartbeat {
     }
 
     public static void sendHeartbeat() {
-        new GetHeartbeatAsync().execute("http://lights.skynet.net/heartbeat/android");
+        new GetHeartbeatAsync().execute("http://glow.skynet.net/heartbeat/set");
     }
 }
