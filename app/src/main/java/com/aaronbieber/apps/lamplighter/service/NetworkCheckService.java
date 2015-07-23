@@ -1,24 +1,15 @@
 package com.aaronbieber.apps.lamplighter.service;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.util.Log;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiInfo;
-
 import com.aaronbieber.apps.lamplighter.util.Heartbeat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class NetworkCheckService extends Service {
     private static final String DEBUG_TAG = "NetworkCheckService";
@@ -51,18 +42,28 @@ public class NetworkCheckService extends Service {
             }
         }
 
-        // Don't you dare keep running.
+        // We're done, end.
         stopSelf();
-        return START_STICKY;
+
+        // If our process is killed, let the service stop until the next intent is delivered.
+        return START_NOT_STICKY;
     }
 
     public static boolean onHomeNetwork(Context context) {
-        WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMan.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 
-        String ssid = wifiInfo.getSSID().replaceAll("\"", "");
-        Log.d(DEBUG_TAG, "SSID is " + ssid);
+            String ssid = wifiInfo.getSSID().replaceAll("\"", "");
+            Log.d(DEBUG_TAG, "SSID is " + ssid);
 
-        return ssid.startsWith("TwilightZone");
+            return ssid.startsWith("TwilightZone");
+        } else {
+            Log.d(DEBUG_TAG, "Not on wi-fi, so fuck off.");
+        }
+
+        return false;
     }
 }

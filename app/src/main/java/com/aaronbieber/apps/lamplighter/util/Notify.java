@@ -21,7 +21,7 @@ public class Notify {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
                         .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
-                        .setSmallIcon(R.drawable.ic_notification)
+                        .setSmallIcon(R.drawable.ic_stat_lamplighter_notification)
                         .setContentTitle(title)
                         .setContentText(message)
                         .setContentIntent(viewPendingIntent);

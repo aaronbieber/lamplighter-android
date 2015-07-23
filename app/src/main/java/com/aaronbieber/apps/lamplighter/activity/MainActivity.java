@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.aaronbieber.apps.lamplighter.R;
@@ -25,6 +26,15 @@ public class MainActivity extends Activity {
 
         activity = this;
 
+        // If the service should be started, start it.
+        if (NetworkCheckService.onHomeNetwork(this.getApplicationContext())) {
+            Log.d(DEBUG_TAG, "Heartbeat should be running... Start it.");
+            Heartbeat.setHeartbeatAlarm(this.getApplicationContext());
+        } else {
+            Log.d(DEBUG_TAG, "Heartbeat should not be running... Stop it.");
+            Heartbeat.stopHeartbeatAlarm(this.getApplicationContext());
+        }
+
         updateOnOffButton();
 
         // Events
@@ -35,6 +45,21 @@ public class MainActivity extends Activity {
 
                 if (isChecked) {
                     Log.d(DEBUG_TAG, "Asked to start service!");
+
+                    if (!NetworkCheckService.onHomeNetwork(activity.getApplicationContext())) {
+                        // Can't start the heartbeat service while away!
+                        CharSequence text = "Can't start, no Wi-Fi!";
+                        Toast.makeText(
+                                activity.getApplicationContext(),
+                                text,
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        // Un-check.
+                        buttonView.setChecked(false);
+                        return;
+                    }
+
                     if (!isAlarmSet) {
                         Log.d(DEBUG_TAG, "It's not set, so I'm doing it.");
                         Heartbeat.setHeartbeatAlarm(activity.getApplicationContext());
@@ -70,7 +95,7 @@ public class MainActivity extends Activity {
         // Update the textStatus label based on NetworkCheckService.isHeartbeatAlarmSet()
         boolean isAlarmSet = Heartbeat.isHeartbeatAlarmSet(this.getApplicationContext());
 
-        Log.d(DEBUG_TAG, "Heartbeat service alarm is " + (isAlarmSet ? "on." : "off."));
+        Log.d(DEBUG_TAG, "Heartbeat service is " + (isAlarmSet ? "on." : "off."));
 
         ToggleButton t = (ToggleButton) findViewById(R.id.toggleOnOff);
         t.setChecked(isAlarmSet);
