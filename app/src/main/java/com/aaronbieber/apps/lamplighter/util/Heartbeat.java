@@ -30,7 +30,7 @@ public class Heartbeat {
         alarmManager.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,    // Wake up for the event (might be bad)
                 System.currentTimeMillis(), // Start now
-                5 * 60 * 1000,              // Every 5 minutes or so
+                15 * 60 * 1000,             // Every 15 minutes or so
                 pendingIntent               // Do this
         );
 
@@ -62,6 +62,6 @@ public class Heartbeat {
     }
 
     public static void sendHeartbeat() {
-        new GetHeartbeatAsync().execute("http://glow.skynet.net/heartbeat/set");
+        new GetHeartbeatAsync().execute("http://lamplighter.skynet.net/heartbeat/set");
     }
 }

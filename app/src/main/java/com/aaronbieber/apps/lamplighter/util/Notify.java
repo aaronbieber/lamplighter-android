@@ -30,6 +30,9 @@ public class Notify {
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(context);
 
+        // Cancel this type of notification before sending another one.
+        notificationManager.cancel(id);
+
         // Build the notification and issues it with notification manager.
         notificationManager.notify(id, notificationBuilder.build());
     }
